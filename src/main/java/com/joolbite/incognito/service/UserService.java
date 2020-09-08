@@ -22,13 +22,20 @@ public class UserService implements UserDetailsService{
         this.IUserRepository = IUserRepository;
     }
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public User loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Objects.requireNonNull(username);
-        User user = IUserRepository.findUserWithName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = IUserRepository.findUserWithName(username);
 
         return user;
+    }
+
+    public User loadUserByMailAndPassword(User user) throws UsernameNotFoundException {
+
+        Objects.requireNonNull(user.getMail());
+        Objects.requireNonNull(user.getPassword());
+
+        return IUserRepository.findUserByMailAndPassword(user.getMail(), user.getPassword());
     }
 
 }

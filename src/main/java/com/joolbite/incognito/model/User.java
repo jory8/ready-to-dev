@@ -8,18 +8,17 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
     private String username;
     private String password;
-    public Integer getUserId() {
+    private String mail;
+    public String getMail() {return mail; }
+    public Long getUserId() {
         return userId;
-    }
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
     public String getUsername() {
         return username;
@@ -53,4 +52,5 @@ public class User implements UserDetails, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    public void setMail(String mail) {this.mail = mail; }
 }

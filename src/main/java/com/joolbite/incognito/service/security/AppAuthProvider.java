@@ -1,5 +1,6 @@
 package com.joolbite.incognito.service.security;
 
+import com.joolbite.incognito.model.User;
 import com.joolbite.incognito.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,23 +15,18 @@ public class AppAuthProvider extends DaoAuthenticationProvider {
     @Autowired
     UserService userDetailsService;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(User user) throws AuthenticationException {
 
-        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
+        String name = user.getMail();
+        String password = user.getPassword();
 
-        String name = auth.getName();
-        String password = auth.getCredentials()
-                .toString();
+        User userExistant = userDetailsService.loadUserByUsername(name);
 
-
-        UserDetails user = userDetailsService.loadUserByUsername(name);
-
-        if (user == null) {
-            throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
+        if (userExistant == null) {
+            throw new BadCredentialsException("Username/Password does not match");
         }
 
-        return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userExistant, null, userExistant.getAuthorities());
 
     }
 
