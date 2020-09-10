@@ -1,18 +1,12 @@
 package com.joolbite.incognito.config;
 
-import com.joolbite.incognito.service.UserService;
-import com.joolbite.incognito.service.security.AppAuthProvider;
+import com.joolbite.incognito.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -28,12 +22,8 @@ import java.io.IOException;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userDetailsService;
+    UtilisateurService utilisateurService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new Http403ForbiddenEntryPoint() {
                 })
                 .and()
-                .authenticationProvider(getProvider())
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .successHandler(new AuthentificationLoginSuccessHandler())
@@ -81,12 +70,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
     }
 
-    @Bean
-    public AuthenticationProvider getProvider() {
 
-        AppAuthProvider provider = new AppAuthProvider();
-        provider.setUserDetailsService(userDetailsService);
-        return provider;
-
-    }
 }

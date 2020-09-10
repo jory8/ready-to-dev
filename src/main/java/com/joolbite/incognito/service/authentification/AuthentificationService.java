@@ -1,26 +1,23 @@
 package com.joolbite.incognito.service.authentification;
 
-import com.joolbite.incognito.model.User;
-import com.joolbite.incognito.repo.IUserRepository;
-import com.joolbite.incognito.service.UserService;
+import com.joolbite.incognito.model.Utilisateur;
+import com.joolbite.incognito.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthentificationService {
 
     @Autowired
-    UserService userService;
+    UtilisateurService utilisateurService;
 
-     public User rechercherUser(User user){
-        User userExistant = userService.loadUserByMailAndPassword(user);
-        if(null == userExistant){
+     public Utilisateur rechercherUtilisateur(Utilisateur utilisateur){
+         Utilisateur utilisateurExistant = utilisateurService.loadUtilisateurByMailAndMotDePasse(utilisateur);
+        if(null == utilisateurExistant){
             throw new AuthenticationCredentialsNotFoundException("Erreur d'authentification : Le mail et/ou le mot de passe ne sont pas corrects ");
         }
-        return userExistant;
+        return utilisateurExistant;
     }
 
 
