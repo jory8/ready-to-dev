@@ -13,13 +13,17 @@ public class AuthentificationService {
     UtilisateurService utilisateurService;
 
      public Utilisateur rechercherUtilisateur(Utilisateur utilisateur){
-         Utilisateur utilisateurExistant = utilisateurService.loadUtilisateurByMailAndMotDePasse(utilisateur);
+
+        Utilisateur utilisateurExistant = utilisateurService.rechercherUtilisateurByMail(utilisateur);
         if(null == utilisateurExistant){
-            throw new AuthenticationCredentialsNotFoundException("Erreur d'authentification : Le mail et/ou le mot de passe ne sont pas corrects ");
+            throw new AuthenticationCredentialsNotFoundException("Erreur d'authentification : Le mail renseigné n'est pas correct ");
         }
+        if(!utilisateurService.checkMotDePasseOk(utilisateur, utilisateurExistant)){
+             throw new AuthenticationCredentialsNotFoundException("Erreur d'authentification : Le mot de passe renseigné n'est pas correct ");
+         };
+
         return utilisateurExistant;
     }
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.joolbite.incognito.service;
 
 
+import com.joolbite.incognito.Utils.UpdatableBCrypt;
 import com.joolbite.incognito.model.Utilisateur;
 import com.joolbite.incognito.repo.IUtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 @Service
 public class UtilisateurService {
@@ -20,6 +22,10 @@ public class UtilisateurService {
         this.IUtilisateurRepository = IUtilisateurRepository;
     }
 
+    // Initialisation Bcrypt pour hash les mots de passe
+    private static final UpdatableBCrypt bcrypt = new UpdatableBCrypt(11);
+
+
     public Utilisateur loadUtilisateurByPseudo(String pseudo) throws UsernameNotFoundException {
 
         Objects.requireNonNull(pseudo);
@@ -28,12 +34,30 @@ public class UtilisateurService {
         return utilisateur;
     }
 
-    public Utilisateur loadUtilisateurByMailAndMotDePasse(Utilisateur Utilisateur) throws UsernameNotFoundException {
+    public Utilisateur rechercherUtilisateurByMail(Utilisateur utilisateur) throws UsernameNotFoundException {
 
-        Objects.requireNonNull(Utilisateur.getMail());
-        Objects.requireNonNull(Utilisateur.getMotDePasse());
+        Objects.requireNonNull(utilisateur.getMail());
 
-        return IUtilisateurRepository.findUtilisateurByMailAndMotDePasse(Utilisateur.getMail(), Utilisateur.getMotDePasse());
+        return IUtilisateurRepository.findUtilisateurByMail(utilisateur.getMail());
+    }
+
+    public Utilisateur creerUtilisateur(Utilisateur utilisateur){
+        Objects.requireNonNull(utilisateur.getMail());
+        Objects.requireNonNull(utilisateur.getMotDePasse());
+
+        hashInfosUtilisateur(utilisateur);
+
+        return IUtilisateurRepository.save(utilisateur);
+    }
+
+    public Utilisateur hashInfosUtilisateur(Utilisateur utilisateur ){
+        utilisateur.setMotDePasse(bcrypt.hash(utilisateur.getMotDePasse()));
+        return utilisateur;
+    }
+
+    public boolean checkMotDePasseOk(Utilisateur utilisateur, Utilisateur utilisateurExistant){
+
+        return bcrypt.verifyHash(utilisateur.getMotDePasse(), utilisateurExistant.getMotDePasse());
     }
 
 }
