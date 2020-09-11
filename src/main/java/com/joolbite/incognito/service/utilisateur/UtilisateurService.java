@@ -1,4 +1,4 @@
-package com.joolbite.incognito.service;
+package com.joolbite.incognito.service.utilisateur;
 
 
 import com.joolbite.incognito.Utils.UpdatableBCrypt;

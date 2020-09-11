@@ -1,6 +1,7 @@
 package com.joolbite.incognito.controller;
 
 import com.joolbite.incognito.model.Utilisateur;
+import com.joolbite.incognito.model.UtilisateurAuthData;
 import com.joolbite.incognito.service.authentification.AuthentificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +16,11 @@ public class AuthentificationController {
     private AuthentificationService authService;
 
     @GetMapping("")
-    public Utilisateur findUtilisateur(@PathVariable Utilisateur utilisateur) {
-        Utilisateur utilisateur1;
-        utilisateur1 = authService.rechercherUtilisateur(utilisateur);
-        return utilisateur1;
+    public UtilisateurAuthData findJory(@RequestBody Utilisateur utilisateur
+    ) {
+        UtilisateurAuthData utilisateurExistant = authService.rechercherUtilisateur(utilisateur);
+        return utilisateurExistant;
     }
 
-    // TODO
-    @GetMapping("/jory")
-    public Utilisateur findJory() {
-        Utilisateur jory = new Utilisateur();
-        jory.setMotDePasse("motDePasseJory");
-        jory.setMail("jory.labat@gmail.com");
-        jory = authService.rechercherUtilisateur(jory);
-        return jory;
-    }
 
 }

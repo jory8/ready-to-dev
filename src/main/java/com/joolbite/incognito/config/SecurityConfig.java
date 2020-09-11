@@ -1,6 +1,6 @@
 package com.joolbite.incognito.config;
 
-import com.joolbite.incognito.service.UtilisateurService;
+import com.joolbite.incognito.service.utilisateur.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
