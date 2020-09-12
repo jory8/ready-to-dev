@@ -17,7 +17,7 @@ public class AuthentificationController {
     private AuthentificationService authService;
 
     @PostMapping(value = "/authentification", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UtilisateurAuthData findJory(@RequestBody Utilisateur utilisateur
+    public UtilisateurAuthData authentifierUtilisateur(@RequestBody Utilisateur utilisateur
     ) {
         System.out.println("Appel du service authentifierUtilisateur");
         UtilisateurAuthData utilisateurExistant = authService.rechercherUtilisateur(utilisateur);
