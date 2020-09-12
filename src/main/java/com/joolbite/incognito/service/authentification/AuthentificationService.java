@@ -32,6 +32,19 @@ public class AuthentificationService {
         return utilisateurAuthData;
     }
 
+    // récupère l'utilisateur en base et génère un token s'il existe
+    public UtilisateurAuthData inscrireUtilisateur(Utilisateur utilisateur){
+
+        Utilisateur utilisateurExistant = utilisateurService.rechercherUtilisateurByMail(utilisateur);
+        if(null != utilisateurExistant){
+            throw new RuntimeException("Cette adresse mail est déjà utilisée.");
+        }
+        utilisateurExistant = utilisateurService.creerUtilisateur(utilisateur);
+        UtilisateurAuthData utilisateurAuthData = genererToken(utilisateurExistant);
+        return utilisateurAuthData;
+    }
+
+
 public UtilisateurAuthData genererToken(Utilisateur utilisateur){
          UtilisateurAuthData utilisateurAuthData = new UtilisateurAuthData(utilisateur);
          StringBuilder token = new StringBuilder().append(bcrypt.hash(utilisateur.getMail())).append(bcrypt.hash(utilisateur.getMotDePasse()));

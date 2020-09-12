@@ -19,8 +19,16 @@ public class AuthentificationController {
     @PostMapping(value = "/authentification", consumes = MediaType.APPLICATION_JSON_VALUE)
     public UtilisateurAuthData findJory(@RequestBody Utilisateur utilisateur
     ) {
-        System.out.println("ça passe par le back");
+        System.out.println("Appel du service authentifierUtilisateur");
         UtilisateurAuthData utilisateurExistant = authService.rechercherUtilisateur(utilisateur);
+        return utilisateurExistant;
+    }
+
+    @PostMapping(value = "/inscription", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public UtilisateurAuthData inscrireUtilisateur(@RequestBody Utilisateur utilisateur
+    ) {
+        System.out.println("Appel du service inscrireUtilisateur");
+        UtilisateurAuthData utilisateurExistant = authService.inscrireUtilisateur(utilisateur);
         return utilisateurExistant;
     }
 
