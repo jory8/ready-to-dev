@@ -21,8 +21,11 @@ import java.io.IOException;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UtilisateurService utilisateurService;
+    final UtilisateurService utilisateurService;
+
+    public SecurityConfig(UtilisateurService utilisateurService){
+        this.utilisateurService = utilisateurService;
+    }
 
 
     @Override

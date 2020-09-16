@@ -1,6 +1,7 @@
 package com.joolbite.incognito.service.security;
 
 import com.joolbite.incognito.model.Utilisateur;
+import com.joolbite.incognito.service.authentification.AuthentificationService;
 import com.joolbite.incognito.service.utilisateur.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,8 +12,11 @@ import org.springframework.security.core.AuthenticationException;
 
 public class AppAuthProvider extends DaoAuthenticationProvider {
 
-    @Autowired
-    UtilisateurService utilisateurService;
+    private final UtilisateurService utilisateurService;
+
+    public AppAuthProvider(UtilisateurService utilisateurService){
+        this.utilisateurService = utilisateurService;
+    }
 
     public Authentication authenticate(Utilisateur utilisateur) throws AuthenticationException {
 

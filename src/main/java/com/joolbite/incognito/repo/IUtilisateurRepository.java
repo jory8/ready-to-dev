@@ -10,7 +10,7 @@ public interface IUtilisateurRepository extends JpaRepository<Utilisateur, Integ
 
     @Query(" select u from Utilisateur u" +
             " where u.pseudo = :pseudo")
-    Utilisateur findUtilisateurWithPseudo(@Param("pseudo")String pseudo);
+    Utilisateur findUtilisateurByPseudo(@Param("pseudo")String pseudo);
 
     @Query(" select u from Utilisateur u" +
             " where u.utilisateurId = :id")

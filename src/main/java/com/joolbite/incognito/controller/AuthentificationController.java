@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthentificationController {
 
-    @Autowired
-    private AuthentificationService authService;
+    private final AuthentificationService authService;
+
+    public AuthentificationController(AuthentificationService authService){
+        this.authService = authService;
+    }
 
     @PostMapping(value = "/authentification", consumes = MediaType.APPLICATION_JSON_VALUE)
     public UtilisateurAuthData authentifierUtilisateur(@RequestBody Utilisateur utilisateur

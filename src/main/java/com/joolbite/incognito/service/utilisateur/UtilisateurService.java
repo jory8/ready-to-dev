@@ -14,10 +14,8 @@ import java.util.function.Function;
 @Service
 public class UtilisateurService {
 
-    @Autowired
     private final IUtilisateurRepository IUtilisateurRepository;
 
-    @Autowired
     public UtilisateurService(IUtilisateurRepository IUtilisateurRepository) {
         this.IUtilisateurRepository = IUtilisateurRepository;
     }
@@ -29,7 +27,7 @@ public class UtilisateurService {
     public Utilisateur loadUtilisateurByPseudo(String pseudo) throws UsernameNotFoundException {
 
         Objects.requireNonNull(pseudo);
-        Utilisateur utilisateur = IUtilisateurRepository.findUtilisateurWithPseudo(pseudo);
+        Utilisateur utilisateur = IUtilisateurRepository.findUtilisateurByPseudo(pseudo);
 
         return utilisateur;
     }

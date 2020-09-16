@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class UtilisateurController {
 
-    @Autowired
-    private IUtilisateurRepository repoUtilisateur;
+    private final IUtilisateurRepository repoUtilisateur;
+    private final UtilisateurService utilisateurService;
 
-    @Autowired
-    private UtilisateurService utilisateurService;
+    public UtilisateurController(IUtilisateurRepository repoUtilisateur, UtilisateurService utilisateurService){
+        this.repoUtilisateur = repoUtilisateur;
+        this.utilisateurService = utilisateurService;
+    }
 
     @GetMapping("/{id}")
     public Utilisateur findUserById(@PathVariable Long id) {

@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthentificationService {
 
-    @Autowired
-    UtilisateurService utilisateurService;
+
+    private final UtilisateurService utilisateurService;
+
+    public AuthentificationService(UtilisateurService utilisateurService){
+        this.utilisateurService = utilisateurService;
+    }
 
     // Initialisation Bcrypt pour hash les mots de passe
     private static final UpdatableBCrypt bcrypt = new UpdatableBCrypt(11);
